@@ -1,6 +1,6 @@
 <template>
     <div class="recommend">
-      <div  v-if="recommends.length" class="slider-wrapper">
+      <div  v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
         <slider>
           <div v-for="(item,i) in recommends" :key="i">
               <a :href="item.linkUrl">
@@ -28,6 +28,7 @@ export default {
   },
   created () {
     this._getRecommend()
+    this._getDisslist()
   },
   mounted () {},
   methods: {
@@ -37,6 +38,24 @@ export default {
         if (data.data.code === 0) {
           _this.recommends = data.data.data.slider
         }
+      })
+    },
+    _getDisslist () {
+      axios.get('/api/getLists/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg', {
+        params: {
+          g_tk: 247361471,
+          jsonpCallback: 'getPlaylistTags',
+          loginUin: '',
+          hostUin: 0,
+          format: 'jsonp',
+          inCharset: 'utf8',
+          outCharset: 'utf-8',
+          notice: 0,
+          platform: 'yqq',
+          needNewCode: 0
+        }
+      }).then(function (data) {
+        console.log(data)
       })
     }
   },
