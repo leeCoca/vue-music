@@ -19,6 +19,8 @@
 <script type="text/ecmascript-6">
 import axios from 'axios'
 import Slider from '../../base/slider/slider'
+import {getDiscList} from '../../api/recommend'
+import {ERR_OK} from '../../api/config'
 
 export default {
   data () {
@@ -41,21 +43,11 @@ export default {
       })
     },
     _getDisslist () {
-      axios.get('/api/getLists/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg', {
-        params: {
-          g_tk: 247361471,
-          jsonpCallback: 'getPlaylistTags',
-          loginUin: '',
-          hostUin: 0,
-          format: 'jsonp',
-          inCharset: 'utf8',
-          outCharset: 'utf-8',
-          notice: 0,
-          platform: 'yqq',
-          needNewCode: 0
+      getDiscList().then((res) => {
+        console.log(res)
+        if (res.code === ERR_OK) {
+          console.log(res)
         }
-      }).then(function (data) {
-        console.log(data)
       })
     }
   },
